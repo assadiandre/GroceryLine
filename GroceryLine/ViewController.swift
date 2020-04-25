@@ -20,21 +20,23 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        manager.requestWhenInUseAuthorization()
         
+        manager.requestWhenInUseAuthorization()
+        let span = MKCoordinateSpan(latitudeDelta: 0.0275, longitudeDelta: 0.0275)
         if let userLocation = manager.location {
-            mapView.setCenter(userLocation.coordinate, animated: true)
+            let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+        } else { // For Testing Purposes
+            let phonyLocation = CLLocationCoordinate2D(latitude:37.8444245,longitude:-122.2423746)
+            let region = MKCoordinateRegion(center: phonyLocation, span: span)
+            mapView.setRegion(region, animated: true)
+            
         }
         setupSearchController()
         resultsViewController?.delegate = self
 
     }
-    
-    
-    
-    func viewDidAppear() {
-    }
-    
+
     func setupSearchController() {
         resultsViewController = GMSAutocompleteResultsViewController()
         searchController = UISearchController(searchResultsController: resultsViewController)
@@ -62,6 +64,8 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
         // 3
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: place.coordinate, span: span)
+        
+        print(place.coordinate)
         mapView.setRegion(region, animated: true)
 
         // 4
