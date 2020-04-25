@@ -9,18 +9,30 @@
 import UIKit
 import MapKit
 import GooglePlaces
+import CoreLocation
 
 class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
+    let manager = CLLocationManager()
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        manager.requestWhenInUseAuthorization()
+        
+        if let userLocation = manager.location {
+            mapView.setCenter(userLocation.coordinate, animated: true)
+        }
         setupSearchController()
         resultsViewController?.delegate = self
 
-        // Do any additional setup after loading the view.
+    }
+    
+    
+    
+    func viewDidAppear() {
     }
     
     func setupSearchController() {
