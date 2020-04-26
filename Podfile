@@ -5,7 +5,8 @@ target 'GroceryLine' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'GoogleMaps'
-  pod 'GooglePlaces'
+  pod 'GooglePlacePicker' 
+  pod 'GoogleMaps',  '~> 3.1.0'
+  pod 'GooglePlaces', '~> 3.1.0'
 
 end

@@ -15,14 +15,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Mcd-lm-fp7">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                            </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M1h-A5-5Gq">
+                                <rect key="frame" x="0.0" y="88" width="414" height="788"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pX9-oY-fX0">
-                                <rect key="frame" x="0.0" y="542" width="414" height="320"/>
+                                <rect key="frame" x="0.0" y="542" width="414" height="354"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="320" id="LJl-FJ-q6T"/>
+                                    <constraint firstAttribute="height" constant="354" id="LJl-FJ-q6T"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Table-Header" rowHeight="80" id="ZUD-gN-lp7">
@@ -140,20 +141,20 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Mcd-lm-fp7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2LI-Co-2xL"/>
+                            <constraint firstItem="M1h-A5-5Gq" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="9kJ-R7-fSD"/>
                             <constraint firstItem="pX9-oY-fX0" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="CbO-28-eCu"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Mcd-lm-fp7" secondAttribute="bottom" id="ZsC-7Y-SC7"/>
-                            <constraint firstItem="Mcd-lm-fp7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="jig-rC-lCB"/>
+                            <constraint firstItem="M1h-A5-5Gq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Jk9-18-Un2"/>
+                            <constraint firstAttribute="bottom" secondItem="M1h-A5-5Gq" secondAttribute="bottom" constant="20" symbolic="YES" id="WFa-4h-2fT"/>
+                            <constraint firstItem="M1h-A5-5Gq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ggp-Sk-uQf"/>
                             <constraint firstItem="pX9-oY-fX0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="lmm-7z-Xge"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Mcd-lm-fp7" secondAttribute="trailing" id="nUH-5B-ICT"/>
-                            <constraint firstItem="pX9-oY-fX0" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="tnZ-iL-UTN"/>
+                            <constraint firstItem="pX9-oY-fX0" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="34" id="tnZ-iL-UTN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="VRT-Bi-3vj"/>
                     <connections>
+                        <outlet property="mainView" destination="M1h-A5-5Gq" id="hc2-fI-KgD"/>
                         <outlet property="mapTableView" destination="pX9-oY-fX0" id="E2X-KY-DVz"/>
-                        <outlet property="mapView" destination="Mcd-lm-fp7" id="3qs-f4-yT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

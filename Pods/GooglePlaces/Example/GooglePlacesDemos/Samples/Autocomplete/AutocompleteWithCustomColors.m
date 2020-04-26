@@ -273,18 +273,16 @@
                                       searchBarTintColor:(UIColor *)searchBarTintColor
                                           separatorColor:(UIColor *)separatorColor {
   // Use UIAppearance proxies to change the appearance of UI controls in
-  // GMSAutocompleteViewController. Here we use appearanceWhenContainedInInstancesOfClasses to
-  // localise changes to just this part of the Demo app. This will generally not be necessary in a
-  // real application as you will probably want the same theme to apply to all elements in your app.
-  UIActivityIndicatorView *appearance = [UIActivityIndicatorView
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]];
-  [appearance setColor:primaryTextColor];
+  // GMSAutocompleteViewController. Here we use appearanceWhenContainedIn to localise changes to
+  // just this part of the Demo app. This will generally not be necessary in a real application as
+  // you will probably want the same theme to apply to all elements in your app.
+  UIActivityIndicatorView *appearence = [UIActivityIndicatorView
+      appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil];
+  [appearence setColor:primaryTextColor];
 
-  [[UINavigationBar
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]]
+  [[UINavigationBar appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil]
       setBarTintColor:darkBackgroundColor];
-  [[UINavigationBar
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]]
+  [[UINavigationBar appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil]
       setTintColor:searchBarTintColor];
 
   // Color of typed text in search bar.
@@ -292,8 +290,7 @@
     NSForegroundColorAttributeName : searchBarTintColor,
     NSFontAttributeName : [UIFont systemFontOfSize:[UIFont systemFontSize]]
   };
-  [[UITextField
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]]
+  [[UITextField appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil]
       setDefaultTextAttributes:searchBarTextAttributes];
 
   // Color of the "Search" placeholder text in search bar. For this example, we'll make it the same
@@ -308,15 +305,14 @@
   NSAttributedString *attributedPlaceholder =
       [[NSAttributedString alloc] initWithString:@"Search" attributes:placeholderAttributes];
 
-  [[UITextField
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]]
+  [[UITextField appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil]
       setAttributedPlaceholder:attributedPlaceholder];
 
   // Change the background color of selected table cells.
   UIView *selectedBackgroundView = [[UIView alloc] init];
   selectedBackgroundView.backgroundColor = selectedTableCellBackgroundColor;
-  id tableCellAppearance = [UITableViewCell
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]];
+  id tableCellAppearance =
+      [UITableViewCell appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil];
   [tableCellAppearance setSelectedBackgroundView:selectedBackgroundView];
 
   // Depending on the navigation bar background color, it might also be necessary to customise the
@@ -325,6 +321,8 @@
 
   GMSAutocompleteViewController *acController = [[GMSStyledAutocompleteViewController alloc] init];
   acController.delegate = self;
+  acController.autocompleteBoundsMode = self.autocompleteBoundsMode;
+  acController.autocompleteBounds = self.autocompleteBounds;
   acController.autocompleteFilter = self.autocompleteFilter;
   acController.placeFields = self.placeFields;
   acController.tableCellBackgroundColor = backgroundColor;
@@ -346,8 +344,8 @@
  * custom icons in the case where the default gray icons don't match a custom background.
  */
 - (void)setupSearchBarCustomIcons {
-  id searchBarAppearanceProxy = [UISearchBar
-      appearanceWhenContainedInInstancesOfClasses:@ [[GMSStyledAutocompleteViewController class]]];
+  id searchBarAppearanceProxy =
+      [UISearchBar appearanceWhenContainedIn:[GMSStyledAutocompleteViewController class], nil];
   [searchBarAppearanceProxy setImage:[UIImage imageNamed:@"custom_clear_x_high"]
                     forSearchBarIcon:UISearchBarIconClear
                                state:UIControlStateHighlighted];

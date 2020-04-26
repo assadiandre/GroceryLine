@@ -8,12 +8,16 @@
 //  Service: https://developers.google.com/maps/terms
 //
 
+#if __has_feature(modules)
+@import GoogleMapsBase;
+#else
+#import <GoogleMapsBase/GoogleMapsBase.h>
+#endif
 #import "GMSAutocompleteBoundsMode.h"
 #import "GMSAutocompleteFilter.h"
 
 @class GMSAutocompletePrediction;
 @class GMSAutocompleteSessionToken;
-@class GMSCoordinateBounds;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -84,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Provide a |GMSAutocompleteSessionToken| for tracking the specific autocomplete query flow.
  */
-- (void)provideSessionToken:(nullable GMSAutocompleteSessionToken *)sessionToken;
+- (void)provideSessionToken:(GMSAutocompleteSessionToken *)sessionToken;
 
 /**
  * Notify the fetcher that the source text to autocomplete has changed.

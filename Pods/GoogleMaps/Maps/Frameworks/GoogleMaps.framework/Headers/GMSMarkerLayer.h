@@ -2,7 +2,7 @@
 //  GMSMarkerLayer.h
 //  Google Maps SDK for iOS
 //
-//  Copyright 2013 Google LLC
+//  Copyright 2013 Google Inc.
 //
 //  Usage of this SDK is subject to the Google Maps/Google Earth APIs Terms of
 //  Service: https://developers.google.com/maps/terms
@@ -26,16 +26,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GMSMarkerLayer : GMSOverlayLayer
 
 /** Latitude, part of |position| on GMSMarker. */
-@property(nonatomic) CLLocationDegrees latitude;
+@property(nonatomic, assign) CLLocationDegrees latitude;
 
 /** Longitude, part of |position| on GMSMarker. */
-@property(nonatomic) CLLocationDegrees longitude;
+@property(nonatomic, assign) CLLocationDegrees longitude;
 
 /** Rotation, as per GMSMarker. */
-@property(nonatomic) CLLocationDegrees rotation;
+@property(nonatomic, assign) CLLocationDegrees rotation;
 
 /** Opacity, as per GMSMarker. */
-@property(atomic) float opacity;
+@property(atomic, assign) float opacity;
 
 @end
 

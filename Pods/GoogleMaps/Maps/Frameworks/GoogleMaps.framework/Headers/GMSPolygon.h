@@ -2,7 +2,7 @@
 //  GMSPolygon.h
 //  Google Maps SDK for iOS
 //
-//  Copyright 2013 Google LLC
+//  Copyright 2013 Google Inc.
 //
 //  Usage of this SDK is subject to the Google Maps/Google Earth APIs Terms of
 //  Service: https://developers.google.com/maps/terms
@@ -34,16 +34,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSArray<GMSPath *> *holes;
 
 /** The width of the polygon outline in screen points. Defaults to 1. */
-@property(nonatomic) CGFloat strokeWidth;
+@property(nonatomic, assign) CGFloat strokeWidth;
 
 /** The color of the polygon outline. Defaults to nil. */
-@property(nonatomic, nullable) UIColor *strokeColor;
+@property(nonatomic, strong, nullable) UIColor *strokeColor;
 
 /** The fill color. Defaults to blueColor. */
-@property(nonatomic, nullable) UIColor *fillColor;
+@property(nonatomic, strong, nullable) UIColor *fillColor;
 
 /** Whether this polygon should be rendered with geodesic correction. */
-@property(nonatomic) BOOL geodesic;
+@property(nonatomic, assign) BOOL geodesic;
 
 /**
  * Convenience constructor for GMSPolygon for a particular path. Other properties will have default

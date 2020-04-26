@@ -9,13 +9,17 @@
 import UIKit
 import MapKit
 import GooglePlaces
+import GoogleMaps
 import CoreLocation
 
-class ViewController: UIViewController {
-    @IBOutlet weak var mapView: MKMapView!
+class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     let manager = CLLocationManager()
+    var mapView:GMSMapView?
+    var camera:GMSCameraPosition?
+    var baseUrl = "https://groceryline.herokuapp.com/"
+    @IBOutlet weak var mainView: UIView!
     
     @IBOutlet weak var mapTableView: UITableView!
     var mapTableViewDelegate: MapTableViewDelegate?
@@ -25,18 +29,7 @@ class ViewController: UIViewController {
         
         manager.requestWhenInUseAuthorization()
         manager.requestAlwaysAuthorization()
-        
-        let span = MKCoordinateSpan(latitudeDelta: 0.0275, longitudeDelta: 0.0275)
-        if let userLocation = manager.location {
-            let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
-        } else { // For Testing Purposes
-            let phonyLocation = CLLocationCoordinate2D(latitude:37.8444245,longitude:-122.2423746)
-            let region = MKCoordinateRegion(center: phonyLocation, span: span)
-            mapView.setRegion(region, animated: true)
-            
-        }
-        mapView.showsUserLocation = true
+
         setupSearchController()
         resultsViewController?.delegate = self
         
@@ -49,29 +42,31 @@ class ViewController: UIViewController {
         mapTableViewDelegate?.didSelectRow = didSelectRow
         mapTableView.delegate = mapTableViewDelegate
         mapTableView.dataSource = mapTableViewDelegate
-        
-        var placesClient:GMSPlacesClient?  = GMSPlacesClient()
-        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-                                                  UInt(GMSPlaceField.placeID.rawValue))!
-        placesClient?.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: fields, callback: {
-          (placeLikelihoodList: Array<GMSPlaceLikelihood>?, error: Error?) in
-          if let error = error {
-            print("An error occurred: \(error.localizedDescription)")
-            return
-          }
-
-          if let placeLikelihoodList = placeLikelihoodList {
-            for likelihood in placeLikelihoodList {
-              let place = likelihood.place
-              print("Current Place name \(String(describing: place.name)) at likelihood \(likelihood.likelihood)")
-              print("Current PlaceID \(String(describing: place.placeID))")
-            }
-          }
-        })
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        var lat:Double = 37.8444245
+        var lon:Double = -122.2423746
+        
+        if let userLocation = manager.location {
+            lat = userLocation.coordinate.latitude
+            lon = userLocation.coordinate.longitude
+        }
+        
+        camera = GMSCameraPosition.camera(withLatitude: lat, longitude: lon, zoom: 6.0)
+        mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera!)
+        mapView?.isMyLocationEnabled = true
+        mainView.addSubview(mapView!)
+        
+        // GET NEAREST PLACES
+        //var testCoords = CLLocationCoordinate2D(latitude:37.8444245,longitude:-122.2423746)
+        //fetchNearestPlaces(location:testCoords)
+        
+        manager.delegate = self
+        manager.startUpdatingLocation()
 
+    }
     
     // TableView functions:
     func didSelectRow(dataItem: Int, cell: UITableViewCell) {
@@ -93,29 +88,73 @@ class ViewController: UIViewController {
     }
     
 
+    func fetchPlaceData(placeId:String) {
+        let urlString = baseUrl + placeId
+        print(urlString)
+        let url = URL(string: urlString)
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: url!){(data, response, error) in
+            if error == nil && data != nil {
+                //Parse JSOn
+                let decoder = JSONDecoder()
+                do {
+                    let dataFeed = try decoder.decode(DataFeed.self, from: data!)
+                    print("FETCHED DATA: ",dataFeed)
+                } catch {
+                    print("error",error)
+                }
+            }
+        }
+        dataTask.resume()
+    }
+
+//    func fetchNearestPlaces( location:CLLocationCoordinate2D ) {
+//        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBb10HJkDvVvJQThvtmulz7gkrzQJCrZAA&location=\(location.latitude),\(location.longitude)&radius=8000&keyword=grocery"
+//        let url = URL(string: urlString)
+//        let session = URLSession.shared
+//        let dataTask = session.dataTask(with: url!){(data, response, error) in
+//            if error == nil && data != nil {
+//                //Parse JSOn
+//                print("FOUND DATA: ")
+//                do {
+//                    // make sure this JSON is in the format we expect
+//                    if let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] {
+//                        // try to read out a string array
+//                        print( json["results"] )
+//                        print(json.count)
+//                    }
+//                } catch let error as NSError {
+//                    print("Failed to load: \(error.localizedDescription)")
+//                }
+//
+//            }
+//        }
+//        dataTask.resume()
+//    }
+
+
+
 }
 
 extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
-        
+        guard let mapView = mapView else {
+            return
+        }
         searchController?.isActive = false
-
-        // 2
-        mapView.removeAnnotations(mapView.annotations)
-
-        // 3
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: place.coordinate, span: span)
+        let newLocation = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude,
+                                                   longitude: place.coordinate.longitude,
+                                             zoom: 10 )
+        mapView.camera = newLocation
+        mapView.clear()
         
-        print(place.coordinate)
-        mapView.setRegion(region, animated: true)
-
-        // 4
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = place.coordinate
-        annotation.title = place.name
-        annotation.subtitle = place.formattedAddress
-        mapView.addAnnotation(annotation)
+        if let placeId = place.placeID {
+            fetchPlaceData(placeId: placeId)
+        }
+        let position = place.coordinate
+        let marker = GMSMarker(position: position)
+        marker.title = place.name
+        marker.map = mapView
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error) {

@@ -2,7 +2,7 @@
 //  GMSCameraPosition.h
 //  Google Maps SDK for iOS
 //
-//  Copyright 2013 Google LLC
+//  Copyright 2013 Google Inc.
 //
 //  Usage of this SDK is subject to the Google Maps/Google Earth APIs Terms of
 //  Service: https://developers.google.com/maps/terms
@@ -151,10 +151,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Mutable version of GMSCameraPosition. */
 @interface GMSMutableCameraPosition : GMSCameraPosition
-@property(nonatomic) CLLocationCoordinate2D target;
-@property(nonatomic) float zoom;
-@property(nonatomic) CLLocationDirection bearing;
-@property(nonatomic) double viewingAngle;
+@property(nonatomic, assign) CLLocationCoordinate2D target;
+@property(nonatomic, assign) float zoom;
+@property(nonatomic, assign) CLLocationDirection bearing;
+@property(nonatomic, assign) double viewingAngle;
 @end
 
 /** The maximum zoom (closest to the Earth's surface) permitted by the map camera. */

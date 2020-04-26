@@ -2,7 +2,7 @@
 //  GMSServices.h
 //  Google Maps SDK for iOS
 //
-//  Copyright 2012 Google LLC
+//  Copyright 2012 Google Inc.
 //
 //  Usage of this SDK is subject to the Google Maps/Google Earth APIs Terms of
 //  Service: https://developers.google.com/maps/terms
@@ -62,15 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)openSourceLicenseInfo;
 
 /**
- * Returns the version for this release of the Google Maps SDK for iOS. For example, "1.0.0"
+ * Returns the version for this release of the Google Maps SDK for iOS.
  */
 + (NSString *)SDKVersion;
-
-/**
- * Returns the long version for this release of the Google Maps SDK for iOS. For example, "1.0.0
- * (102.1)".
- */
-+ (NSString *)SDKLongVersion;
 
 @end
 

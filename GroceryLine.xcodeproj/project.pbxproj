@@ -17,6 +17,7 @@
 		6592C18D2454BF54004509AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6592C18B2454BF54004509AF /* LaunchScreen.storyboard */; };
 		6592C1982454DED0004509AF /* MapTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592C1972454DED0004509AF /* MapTableView.swift */; };
 		6592C19A2454E834004509AF /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592C1992454E834004509AF /* LocationCell.swift */; };
+		6592C19C24555E60004509AF /* DataFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592C19B24555E60004509AF /* DataFeed.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		6592C18E2454BF54004509AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6592C1972454DED0004509AF /* MapTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableView.swift; sourceTree = "<group>"; };
 		6592C1992454E834004509AF /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		6592C19B24555E60004509AF /* DataFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFeed.swift; sourceTree = "<group>"; };
 		671F3106A4B76F3245AC4678 /* Pods-GroceryLine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GroceryLine.release.xcconfig"; path = "Target Support Files/Pods-GroceryLine/Pods-GroceryLine.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 			children = (
 				6592C1972454DED0004509AF /* MapTableView.swift */,
 				6592C1992454E834004509AF /* LocationCell.swift */,
+				6592C19B24555E60004509AF /* DataFeed.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				6592C17E2454BF52004509AF /* AppDelegate.swift in Sources */,
 				6592C1802454BF52004509AF /* SceneDelegate.swift in Sources */,
 				6592C1882454BF52004509AF /* GroceryLine.xcdatamodeld in Sources */,
+				6592C19C24555E60004509AF /* DataFeed.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
