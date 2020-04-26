@@ -16,7 +16,7 @@ struct DataFeed: Codable {
     var coordinates: Cor?
     var rating: Double?
     var rating_n: Double?
-    var current_popularity: integer_t?
+    var current_popularity: Int?
     var populartimes: [PTimes]
 }
 
