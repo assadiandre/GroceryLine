@@ -17,11 +17,15 @@ class ViewController: UIViewController {
     var searchController: UISearchController?
     let manager = CLLocationManager()
     
-
+    @IBOutlet weak var mapTableView: UITableView!
+    var mapTableViewDelegate: MapTableViewDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         manager.requestWhenInUseAuthorization()
+        manager.requestAlwaysAuthorization()
+        
         let span = MKCoordinateSpan(latitudeDelta: 0.0275, longitudeDelta: 0.0275)
         if let userLocation = manager.location {
             let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
@@ -32,11 +36,49 @@ class ViewController: UIViewController {
             mapView.setRegion(region, animated: true)
             
         }
+        mapView.showsUserLocation = true
         setupSearchController()
         resultsViewController?.delegate = self
+        
+        // Fetch Nearest Data Here
+        // Data = .....
+        
+        // IMPORTANT: phonydata is testing data
+        let phonyData:[Int] = [1, 2]
+        mapTableViewDelegate = MapTableViewDelegate(data:phonyData)
+        mapTableViewDelegate?.didSelectRow = didSelectRow
+        mapTableView.delegate = mapTableViewDelegate
+        mapTableView.dataSource = mapTableViewDelegate
+        
+        var placesClient:GMSPlacesClient?  = GMSPlacesClient()
+        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
+                                                  UInt(GMSPlaceField.placeID.rawValue))!
+        placesClient?.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: fields, callback: {
+          (placeLikelihoodList: Array<GMSPlaceLikelihood>?, error: Error?) in
+          if let error = error {
+            print("An error occurred: \(error.localizedDescription)")
+            return
+          }
+
+          if let placeLikelihoodList = placeLikelihoodList {
+            for likelihood in placeLikelihoodList {
+              let place = likelihood.place
+              print("Current Place name \(String(describing: place.name)) at likelihood \(likelihood.likelihood)")
+              print("Current PlaceID \(String(describing: place.placeID))")
+            }
+          }
+        })
 
     }
+    
 
+    
+    // TableView functions:
+    func didSelectRow(dataItem: Int, cell: UITableViewCell) {
+        print("User Selected a Row!")
+    }
+    
+    // SearchBar display:
     func setupSearchController() {
         resultsViewController = GMSAutocompleteResultsViewController()
         searchController = UISearchController(searchResultsController: resultsViewController)
@@ -49,7 +91,7 @@ class ViewController: UIViewController {
         definesPresentationContext = true
         searchController?.hidesNavigationBarDuringPresentation = false
     }
-
+    
 
 }
 
@@ -81,3 +123,16 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     }
 }
 
+// Example Request:
+//        if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
+//            print("WORKED")
+//            let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+//                print("DATA:")
+//                if let data = data as? JSON {
+//                    print(data["userId"])
+//                }
+//              })
+//
+//              task.resume()
+//        }
+        
